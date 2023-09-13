@@ -1,0 +1,8 @@
+name=Noise
+author=Commit 451
+description=Just noise. White noise
+bundleID=com.commit451.noise
+version=1.0
+buildNumber=1
+imagePath=system
+launchSoundPath=
