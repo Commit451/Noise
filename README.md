@@ -1,6 +1,6 @@
 # Noise
 
-White noise
+Just noise. White noise
 
 ## Build
 https://sdk.play.date/2.0.1/Inside%20Playdate.html#_compiling_a_project

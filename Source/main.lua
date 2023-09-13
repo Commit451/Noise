@@ -3,17 +3,20 @@ local gfx = playdate.graphics
 
 playdate.setAutoLockDisabled(true)
 
-local currentFrequency = 400
+local maxFrequency <const> = 5000
+local minFrequency <const> = 0
+local currentFrequency = 300
 
 local synth = snd.synth.new(playdate.sound.kWaveNoise)
 local filter = snd.twopolefilter.new(playdate.sound.kFilterLowPass)
 filter:setMix(1)
 filter:setFrequency(currentFrequency)
+filter:setResonance(0)
 
 snd.addEffect(filter)
 
 function startNoise()
-	synth:playNote("C4", 0.1)
+	synth:playNote("C4", 1.0)
 end
 
 function playdate.AButtonUp()
@@ -27,6 +30,12 @@ end
 function playdate.cranked(change, accelerationChange)
 	print("change: " .. change .. " accelerationChange: " .. accelerationChange)
 	currentFrequency = currentFrequency - change
+	if currentFrequency < minFrequency then
+		currentFrequency = minFrequency
+	end
+	if currentFrequency > maxFrequency then
+		currentFrequency = maxFrequency
+	end
 	print("currentFrequency " .. currentFrequency)
 	filter:setFrequency(currentFrequency)
 	draw()
@@ -41,7 +50,8 @@ function draw()
 	gfx.drawText("Press A to start/stop", 100, 100)
 
 	gfx.drawText("Crank to change filter", 100, 200)
-	gfx.drawText("" .. currentFrequency, 100, 220)
+	local roundedFrequency = math.floor(currentFrequency + 0.5)
+	gfx.drawText("" .. roundedFrequency, 100, 220)
 end
 
 startNoise()
